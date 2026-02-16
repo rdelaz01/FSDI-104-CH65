@@ -47,13 +47,13 @@ list.appendChild(li);
 }
 
 
-const petForm = document.querySelector("Form");
+const petForm = document.querySelector("form");
 const petTable = document.getElementById("petTable");
 
 
-//=================
-//   CONSTRUCTOR
-//=================
+//=================//
+//   CONSTRUCTOR   //
+//=================//
 
 function Pet(name, age, gender, service, breed) {
     this.name = name;
@@ -63,16 +63,25 @@ function Pet(name, age, gender, service, breed) {
     this.breed = breed;
 }
 
-function onSubmintPet(event) {
-    event.preventDefault();
 
-    console.log("Register button clicked");
-        
 
 // Constructed pet4, pet5, pet6
-//let pet4 = new Pet("Luna", "4", "female", "grooming", "shih tzu");
-//let pet5 = new Pet("Bubba", "6", "male", "vaccination", "English bulldog");
-//let pet6 = new Pet("Bella", "1", "female", "checkup", "beagle mix");
+const initialPets = [
+    new Pet("Luna", "4", "female", "grooming", "shih tzu"),
+    new Pet("Bubba", "6", "male", "vaccination", "English bulldog"),
+    new Pet("Bella", "1", "female", "checkup", "beagle mix")
+];
+
+function loadInitialPets() {
+    initialPets.forEach(pet => addRow(pet));
+}
+
+
+function onSubmitPet(event) {
+    event.preventDefault();
+    console.log("Register button clicked");
+
+    // Getting values from the form
     const name = petForm.elements["petName"].value;
     const age = petForm.elements["petAge"].value;
     const gender = petForm.elements["petGender"].value;
@@ -80,25 +89,35 @@ function onSubmintPet(event) {
     const breed = petForm.elements["petBreed"].value;
 
     const newPet = new Pet(name, age, gender, service, breed);
-    console.log(newPet);
     addRow(newPet);
 
     petForm.reset();
-    
 }
 
-function addRow(newPet) {
+
+function addRow(pet) {
     const row = document.createElement("tr");
 
-    row.innerHTML = 
-    `<td> ${newPet.name} </td>
-    <td> ${newPet.age} </td>
-    <td> ${newPet.gender} </td>
-    <td> ${newPet.service} </td>
-    <td> ${newPet.breed} </td>
-    <td><button class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
+    row.innerHTML = `
+        <td>${pet.name}</td>
+        <td>${pet.age}</td>
+        <td>${pet.gender}</td>
+        <td>${pet.service}</td>
+        <td>${pet.breed}</td>
+        <td><button class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
     `;
 
-    
     petTable.appendChild(row);
-    }
+}
+
+//  DELETE FUNCTION
+function deleteRow(button) {
+
+    const row = button.parentNode.parentNode;
+    row.remove();
+}
+
+petForm.addEventListener("submit", onSubmitPet);
+
+
+loadInitialPets();
