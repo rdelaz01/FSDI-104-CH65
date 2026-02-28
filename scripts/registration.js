@@ -43,7 +43,7 @@ let li = document.createElement("li");
 
 li.innerHTML = `<b>${petList[i].name}</b>`;
 
-list.appendChild(li);
+//list.appendChild(li);
 }
 
 
@@ -121,3 +121,15 @@ petForm.addEventListener("submit", onSubmitPet);
 
 
 loadInitialPets();
+
+$("#darkModeToggle").on("click", function() {
+    const currentTheme = $("html").attr("my-theme");
+    
+    if (currentTheme === "dark") {
+        $("html").removeAttr("my-theme");
+        $(this).text("☀️");
+    } else {
+        $("html").attr("my-theme", "dark");
+        $(this).text("🌙");
+    }
+});
